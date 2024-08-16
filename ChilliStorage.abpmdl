@@ -1,0 +1,85 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.Account": {
+      "version": "8.2.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "8.2.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "8.2.1",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "8.2.1",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "ChilliStorage.Application": {
+      "path": "src/ChilliStorage.Application/ChilliStorage.Application.abppkg",
+      "folder": "src"
+    },
+    "ChilliStorage.Application.Tests": {
+      "path": "test/ChilliStorage.Application.Tests/ChilliStorage.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "ChilliStorage.Domain.Shared": {
+      "path": "src/ChilliStorage.Domain.Shared/ChilliStorage.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "ChilliStorage.Application.Contracts": {
+      "path": "src/ChilliStorage.Application.Contracts/ChilliStorage.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "ChilliStorage.HttpApi": {
+      "path": "src/ChilliStorage.HttpApi/ChilliStorage.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "ChilliStorage.HttpApi.Client": {
+      "path": "src/ChilliStorage.HttpApi.Client/ChilliStorage.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "ChilliStorage.EntityFrameworkCore.Tests": {
+      "path": "test/ChilliStorage.EntityFrameworkCore.Tests/ChilliStorage.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "ChilliStorage.EntityFrameworkCore": {
+      "path": "src/ChilliStorage.EntityFrameworkCore/ChilliStorage.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "ChilliStorage.TestBase": {
+      "path": "test/ChilliStorage.TestBase/ChilliStorage.TestBase.abppkg",
+      "folder": "test"
+    },
+    "ChilliStorage.Domain.Tests": {
+      "path": "test/ChilliStorage.Domain.Tests/ChilliStorage.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "ChilliStorage.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/ChilliStorage.HttpApi.Client.ConsoleTestApp/ChilliStorage.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "ChilliStorage.DbMigrator": {
+      "path": "src/ChilliStorage.DbMigrator/ChilliStorage.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "ChilliStorage.HttpApi.Host": {
+      "path": "src/ChilliStorage.HttpApi.Host/ChilliStorage.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "ChilliStorage.Domain": {
+      "path": "src/ChilliStorage.Domain/ChilliStorage.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
