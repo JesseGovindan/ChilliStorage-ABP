@@ -1,4 +1,4 @@
-import { AuthService } from '@abp/ng.core';
+import { AuthService, ConfigStateService } from '@abp/ng.core';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class HomeComponent {
   uploadForm: FormGroup;
+  isTenant = this.config.getOne('currentUser')?.tenantId ? true : false;
 
   get hasLoggedIn(): boolean {
     return this.authService.isAuthenticated
@@ -17,6 +18,7 @@ export class HomeComponent {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
+    private config: ConfigStateService,
   ) {
     this.uploadForm = this.fb.group({
       consignmentNumber: ['', Validators.required],
