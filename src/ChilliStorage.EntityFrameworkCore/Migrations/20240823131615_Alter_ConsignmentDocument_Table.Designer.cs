@@ -4,6 +4,7 @@ using ChilliStorage.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace ChilliStorage.Migrations
 {
     [DbContext(typeof(ChilliStorageDbContext))]
-    partial class ChilliStorageDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240823131615_Alter_ConsignmentDocument_Table")]
+    partial class Alter_ConsignmentDocument_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

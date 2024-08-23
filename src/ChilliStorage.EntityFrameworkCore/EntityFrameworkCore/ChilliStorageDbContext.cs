@@ -14,6 +14,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using ChilliStorage.Data.Entities;
 
 namespace ChilliStorage.EntityFrameworkCore;
 
@@ -55,12 +56,13 @@ public class ChilliStorageDbContext :
     public DbSet<Tenant> Tenants { get; set; }
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
+    public DbSet<ConsignmentDocument> ConsignmentDocuments { get; set; }
+
     #endregion
 
     public ChilliStorageDbContext(DbContextOptions<ChilliStorageDbContext> options)
         : base(options)
     {
-
     }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -78,14 +80,28 @@ public class ChilliStorageDbContext :
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
-        
+
         /* Configure your own tables/entities inside here */
 
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(ChilliStorageConsts.DbTablePrefix + "YourEntities", ChilliStorageConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+        builder.Entity<ConsignmentDocument>(b =>
+        {
+            b.ToTable(ChilliStorageConsts.DbTablePrefix + "App", ChilliStorageConsts.DbSchema);
+
+            b.Property(x => x.CapturedDate)
+                .IsRequired();
+            b.Property(x => x.ConsignmentNumber)
+                .IsRequired();
+            b.Property(x => x.Document)
+                .IsRequired();
+            b.Property(x => x.SupplierId)
+                .IsRequired();
+
+            b.HasOne(cd => cd.Supplier)
+                .WithMany()
+                .HasForeignKey(cd => cd.SupplierId)
+                .OnDelete(DeleteBehavior.Cascade);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            //...
+        });
     }
 }
