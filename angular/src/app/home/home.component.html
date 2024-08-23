@@ -13,7 +13,7 @@
       <hr />
       <p class="text-right"><a href="https://abp.io?ref=tmpl" target="_blank">abp.io</a></p>
     </div>
-    <div class="card" *ngIf="!isTenant">
+    <div class="card" *ngIf="!isTenant && hasLoggedIn">
       <div class="card-header">
         Upload Document
       </div>
