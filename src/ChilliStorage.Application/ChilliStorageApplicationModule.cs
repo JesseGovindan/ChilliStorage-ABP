@@ -17,7 +17,8 @@ namespace ChilliStorage;
     typeof(AbpIdentityApplicationModule),
     typeof(AbpAccountApplicationModule),
     typeof(AbpTenantManagementApplicationModule),
-    typeof(AbpSettingManagementApplicationModule)
+    typeof(AbpSettingManagementApplicationModule),
+    typeof(AbpAutoMapperModule)
     )]
 public class ChilliStorageApplicationModule : AbpModule
 {
