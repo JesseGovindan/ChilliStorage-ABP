@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChilliStorage.Data.Entities;
 using ChilliStorage.Dtos;
@@ -29,5 +30,13 @@ public class DocumentConsignmentService : ApplicationService, IDocumentConsignme
             Document = documentBuffer
         };
         await _consignmentDocumentRepository.InsertAsync(consignmentEntity);
+    }
+
+    public async Task<List<ConsignmentDocumentDto>> GetAllAsync(Guid supplierId)
+    {
+        var consignmentDocumentEntities = await _consignmentDocumentRepository
+            .GetListAsync(x => x.SupplierId == supplierId);
+
+        return ObjectMapper.Map<List<ConsignmentDocument>, List<ConsignmentDocumentDto>>(consignmentDocumentEntities);
     }
 }

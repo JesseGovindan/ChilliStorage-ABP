@@ -7,37 +7,49 @@
       </p>
       <p *ngIf="!hasLoggedIn">
         <a (click)="login()" class="btn btn-primary" role="button"
-          ><i class="fa fa-sign-in me-1" aria-hidden="true"></i>{{ 'AbpAccount::Login' | abpLocalization }}</a
+          ><i class="fa fa-sign-in me-1" aria-hidden="true"></i
+          >{{ 'AbpAccount::Login' | abpLocalization }}</a
         >
       </p>
       <hr />
       <p class="text-right"><a href="https://abp.io?ref=tmpl" target="_blank">abp.io</a></p>
     </div>
     <div class="card" *ngIf="!isTenant && hasLoggedIn">
-      <div class="card-header">
-        Upload Document
-      </div>
+      <div class="card-header">Upload Document</div>
       <div class="card-body">
         <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="consignmentNumber">Consignment Number</label>
-            <input type="text" id="consignmentNumber" formControlName="consignmentNumber" class="form-control" placeholder="Enter consignment number">
+            <input
+              type="text"
+              id="consignmentNumber"
+              formControlName="consignmentNumber"
+              class="form-control"
+              placeholder="Enter consignment number"
+            />
           </div>
           <div class="form-group">
             <label for="supplierName">Supplier Name</label>
-            <select formControlName="supplierId" class="form-control" placeholder="Enter supplier name">
+            <select
+              formControlName="supplierId"
+              class="form-control"
+              placeholder="Enter supplier name"
+            >
               <option *ngFor="let option of suppliers" [value]="option.id">
                 {{ option.name }}
-            </option>
+              </option>
             </select>
           </div>
           <div class="form-group">
             <label for="document">Upload Document</label>
-            <input type="file" id="document" (change)="onFileChange($event)" class="form-control">
+            <input type="file" id="document" (change)="onFileChange($event)" class="form-control" />
           </div>
-          <button type="submit" class="btn btn-primary" [disabled]="uploadForm.invalid">Submit</button>
+          <button type="submit" class="btn btn-primary" [disabled]="uploadForm.invalid">
+            Submit
+          </button>
         </form>
       </div>
     </div>
+    <div class="card" *ngIf="isTenant && hasLoggedIn"></div>
   </div>
 </abp-page>
