@@ -20,7 +20,14 @@ public class DocumentConsignmentService : ApplicationService, IDocumentConsignme
 
     public async Task CreateAsync(ConsignmentDocumentDto consignmentDocumentDto)
     {
-        var consignmentEntity = ObjectMapper.Map<ConsignmentDocumentDto, ConsignmentDocument>(consignmentDocumentDto);
+        var documentBuffer = Convert.FromBase64String(consignmentDocumentDto.Document);
+        var consignmentEntity = new ConsignmentDocument
+        {
+            SupplierId = consignmentDocumentDto.SupplierId,
+            ConsignmentNumber = consignmentDocumentDto.ConsignmentNumber,
+            CapturedDate = DateTime.Now,
+            Document = documentBuffer
+        };
         await _consignmentDocumentRepository.InsertAsync(consignmentEntity);
     }
 }
