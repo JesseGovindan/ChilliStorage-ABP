@@ -65,7 +65,7 @@
             <tr>
               <td>{{document.consignmentNumber}}</td>
               <td>{{document.capturedDate | date: 'yyyy/MM/dd HH:mm'}}</td>
-              <td><a href="">download</a></td>
+              <td><button (click)="download(document.consignmentNumber)">Download</button></td>
             </tr>
           }
         </tbody>

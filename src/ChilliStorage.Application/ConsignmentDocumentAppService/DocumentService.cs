@@ -47,4 +47,11 @@ public class DocumentConsignmentService : ApplicationService, IDocumentConsignme
 
         return ObjectMapper.Map<List<ConsignmentDocument>, List<ConsignmentDocumentDto>>(consignmentDocumentEntities);
     }
+
+    public async Task<byte[]> GetDownloadConsignmentDocumentAsync(string consignmentNumber)
+    {
+        var consignmentDocument =
+            await _consignmentDocumentRepository.FirstAsync(x => x.ConsignmentNumber == consignmentNumber);
+        return consignmentDocument.Document;
+    }
 }

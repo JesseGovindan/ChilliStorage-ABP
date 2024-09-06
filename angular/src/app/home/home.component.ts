@@ -95,6 +95,25 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  download(consignmentNumber: string): void {
+   
+    alert(consignmentNumber)
+    this.consignmentDocumentService.downloadConsignmentDocument$(consignmentNumber)
+    .subscribe((response) => {
+      console.log(response);
+       // Create a Blob object representing the PDF file
+    const blob = new Blob([response], { type: 'application/pdf' });
+    console.log(blob);
+    // Create a URL for the Blob object
+    const url = URL.createObjectURL(blob);
+    console.log(url);
+    // Open the URL in a new tab
+    window.open(url, '_blank');
+    });
+  }
+
+
+
   arrayBufferToBase64(buffer: ArrayBuffer): string {
     let binary = '';
     const bytes = new Uint8Array(buffer);

@@ -23,4 +23,9 @@ export class ConsignmentDocumentService {
     const url = `${environment.apis.default.url}/api/app/document-consignment`;
     return this.http.get<ConsignmentDocumentSummary[]>(url);
   }
+
+  downloadConsignmentDocument$(consignmentNumber: string) {
+    const url =`${environment.apis.default.url}/api/app/document-consignment/download-consignment-document?consignmentNumber=${consignmentNumber}`
+    return this.http.get(url, { responseType: 'arraybuffer' });
+  }
 }
