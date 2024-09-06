@@ -5,6 +5,7 @@ import { ConsignmentDocumentService } from '../services/consignment-document.ser
 import { UploadConsignmentDocument } from '../models/consignment-document.model';
 import { SupplierService } from '../services/supplier.service';
 import { Supplier } from '../models/supplier.model';
+import { ConsignmentDocumentSummary } from '../models/consignemet-document-summary.model';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,8 @@ export class HomeComponent implements OnInit {
     return this.authService.isAuthenticated;
   }
 
+  consignmentDocuments: ConsignmentDocumentSummary[] = [];
+
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -38,6 +41,14 @@ export class HomeComponent implements OnInit {
     this.supplierService.getSupplier$().subscribe({
       next: response => {
         this.suppliers = response;
+        this.formReady = true;
+      },
+      error: () => {},
+    });
+
+    this.consignmentDocumentService.getAllConsignmentDocuments$().subscribe({
+      next: response => {
+        this.consignmentDocuments = response;
         this.formReady = true;
       },
       error: () => {},

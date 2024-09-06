@@ -32,10 +32,18 @@ public class DocumentConsignmentService : ApplicationService, IDocumentConsignme
         await _consignmentDocumentRepository.InsertAsync(consignmentEntity);
     }
 
-    public async Task<List<ConsignmentDocumentDto>> GetAllAsync(Guid supplierId)
+    public async Task<List<ConsignmentDocumentDto>> GetSupplierConsignmentDocumentsAsync(Guid supplierId)
     {
         var consignmentDocumentEntities = await _consignmentDocumentRepository
             .GetListAsync(x => x.SupplierId == supplierId);
+
+        return ObjectMapper.Map<List<ConsignmentDocument>, List<ConsignmentDocumentDto>>(consignmentDocumentEntities);
+    }
+
+    public async Task<List<ConsignmentDocumentDto>> GetAllAsync()
+    {
+        var consignmentDocumentEntities = await _consignmentDocumentRepository
+            .GetListAsync();
 
         return ObjectMapper.Map<List<ConsignmentDocument>, List<ConsignmentDocumentDto>>(consignmentDocumentEntities);
     }

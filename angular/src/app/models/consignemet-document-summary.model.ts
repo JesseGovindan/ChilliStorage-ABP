@@ -1,5 +1,5 @@
 export interface ConsignmentDocumentSummary {
   consignmentNumber: string;
-  captureDate: Date;
+  capturedDate: Date;
   document: string;
 }

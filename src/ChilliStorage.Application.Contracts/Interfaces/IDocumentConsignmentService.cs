@@ -9,5 +9,6 @@ namespace ChilliStorage.Interfaces;
 public interface IDocumentConsignmentService: IApplicationService
 {
     Task CreateAsync(ConsignmentDocumentDto consignmentDocumentDto);
-    Task<List<ConsignmentDocumentDto>> GetAllAsync(Guid supplierId);
+    Task<List<ConsignmentDocumentDto>> GetSupplierConsignmentDocumentsAsync(Guid supplierId);
+    Task<List<ConsignmentDocumentDto>> GetAllAsync();
 }
