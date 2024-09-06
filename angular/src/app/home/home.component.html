@@ -1,5 +1,19 @@
 <abp-page [title]="'::Menu:Home' | abpLocalization">
   <div class="card">
+    <!-- <div class="card-header">{{ '::Welcome' | abpLocalization }}</div> -->
+    <div class="card-body">
+      <!-- <p>
+        {{ '::LongWelcomeMessage' | abpLocalization }}
+      </p> -->
+      <p *ngIf="!hasLoggedIn">
+        <a (click)="login()" class="btn btn-primary" role="button"
+          ><i class="fa fa-sign-in me-1" aria-hidden="true"></i
+          >{{ 'AbpAccount::Login' | abpLocalization }}</a
+        >
+      </p>
+      <!-- <hr /> -->
+      <!-- <p class="text-right"><a href="https://abp.io?ref=tmpl" target="_blank">abp.io</a></p> -->
+    </div>
     <div class="card" *ngIf="!isTenant && !hasLoggedIn">
       <div class="card-header">Upload Document</div>
       <div class="card-body">
@@ -37,13 +51,17 @@
       </div>
     </div>
     <div class="container">
-      <form class="form-inline"
-      (ngSubmit)="onFilterSupplier()"
-      [formGroup]="filterForm">
+      <form class="form-inline" (ngSubmit)="onFilterSupplier()" [formGroup]="filterForm">
         <div class="row">
           <div class="col-md-6"></div>
           <div class="col-md-5">
-            <input class="form-control" formControlName="filterString" type="search" placeholder="Search" aria-label="Search">
+            <input
+              class="form-control"
+              formControlName="filterString"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
           </div>
           <div class="col-md-1">
             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -62,11 +80,11 @@
         </thead>
         <tbody>
           @for(document of filteredConsignmentDocuments; track document.consignmentNumber){
-            <tr>
-              <td>{{document.consignmentNumber}}</td>
-              <td>{{document.capturedDate | date: 'yyyy/MM/dd HH:mm'}}</td>
-              <td><button (click)="download(document.consignmentNumber)">Download</button></td>
-            </tr>
+          <tr>
+            <td>{{ document.consignmentNumber }}</td>
+            <td>{{ document.capturedDate | date : 'yyyy/MM/dd HH:mm' }}</td>
+            <td><button (click)="download(document.consignmentNumber)">Download</button></td>
+          </tr>
           }
         </tbody>
       </table>
