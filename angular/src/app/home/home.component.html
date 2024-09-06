@@ -1,19 +1,5 @@
 <abp-page [title]="'::Menu:Home' | abpLocalization">
   <div class="card">
-    <div class="card-header">{{ '::Welcome' | abpLocalization }}</div>
-    <div class="card-body">
-      <p>
-        {{ '::LongWelcomeMessage' | abpLocalization }}
-      </p>
-      <p *ngIf="!hasLoggedIn">
-        <a (click)="login()" class="btn btn-primary" role="button"
-          ><i class="fa fa-sign-in me-1" aria-hidden="true"></i
-          >{{ 'AbpAccount::Login' | abpLocalization }}</a
-        >
-      </p>
-      <hr />
-      <p class="text-right"><a href="https://abp.io?ref=tmpl" target="_blank">abp.io</a></p>
-    </div>
     <div class="card" *ngIf="!isTenant && !hasLoggedIn">
       <div class="card-header">Upload Document</div>
       <div class="card-body">
@@ -51,11 +37,13 @@
       </div>
     </div>
     <div class="container">
-      <form class="form-inline">
+      <form class="form-inline"
+      (ngSubmit)="onFilterSupplier()"
+      [formGroup]="filterForm">
         <div class="row">
           <div class="col-md-6"></div>
           <div class="col-md-5">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control" formControlName="filterString" type="search" placeholder="Search" aria-label="Search">
           </div>
           <div class="col-md-1">
             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -67,16 +55,14 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Consignment Number</th>
             <th scope="col">Capture Date</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          @for(document of consignmentDocuments; track document.consignmentNumber){
+          @for(document of filteredConsignmentDocuments; track document.consignmentNumber){
             <tr>
-              <th scope="row">1</th>
               <td>{{document.consignmentNumber}}</td>
               <td>{{document.capturedDate | date: 'yyyy/MM/dd HH:mm'}}</td>
               <td><a href="">download</a></td>

@@ -14,6 +14,8 @@ import { ConsignmentDocumentSummary } from '../models/consignemet-document-summa
 })
 export class HomeComponent implements OnInit {
   uploadForm: FormGroup;
+  filterForm: FormGroup;
+
   isTenant = this.config.getOne('currentUser')?.tenantId ? true : false;
   fileBuffer: Promise<string>;
   suppliers: Supplier[] = [];
@@ -24,6 +26,7 @@ export class HomeComponent implements OnInit {
   }
 
   consignmentDocuments: ConsignmentDocumentSummary[] = [];
+  filteredConsignmentDocuments: ConsignmentDocumentSummary[] = [];
 
   constructor(
     private authService: AuthService,
@@ -36,6 +39,10 @@ export class HomeComponent implements OnInit {
       consignmentNumber: ['', Validators.required],
       supplierId: ['', Validators.required],
     });
+
+    this.filterForm = this.fb.group({
+      filterString: ['']
+    });
   }
   ngOnInit(): void {
     this.supplierService.getSupplier$().subscribe({
@@ -46,13 +53,29 @@ export class HomeComponent implements OnInit {
       error: () => {},
     });
 
+    this.getConsignmentDocuments();
+  }
+
+  private getConsignmentDocuments() {
     this.consignmentDocumentService.getAllConsignmentDocuments$().subscribe({
       next: response => {
         this.consignmentDocuments = response;
+        this.filteredConsignmentDocuments = response;
         this.formReady = true;
       },
-      error: () => {},
+      error: () => { },
     });
+  }
+
+  onFilterSupplier(): void {
+    const filterString = this.filterForm.value.filterString;
+    if (filterString) {
+      this.filteredConsignmentDocuments = this.consignmentDocuments.filter(document =>
+        document.consignmentNumber.includes(filterString)
+      );
+      return;
+    } 
+    this.filteredConsignmentDocuments = this.consignmentDocuments;
   }
 
   login() {
