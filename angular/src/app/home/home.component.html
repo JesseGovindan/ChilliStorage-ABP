@@ -1,75 +1,78 @@
 <abp-page [title]="'::Menu:Home' | abpLocalization">
-  <div class="card">
-    <!-- <div class="card-header">{{ '::Welcome' | abpLocalization }}</div> -->
-    <div class="card-body">
-      <!-- <p>
+  <!-- <div class="card-header">{{ '::Welcome' | abpLocalization }}</div> -->
+  <div class="card-body">
+    <!-- <p>
         {{ '::LongWelcomeMessage' | abpLocalization }}
       </p> -->
-      <p *ngIf="!hasLoggedIn">
-        <a (click)="login()" class="btn btn-primary" role="button"
-          ><i class="fa fa-sign-in me-1" aria-hidden="true"></i
-          >{{ 'AbpAccount::Login' | abpLocalization }}</a
-        >
-      </p>
-      <!-- <hr /> -->
-      <!-- <p class="text-right"><a href="https://abp.io?ref=tmpl" target="_blank">abp.io</a></p> -->
-    </div>
-    <div class="card" *ngIf="!isTenant && hasLoggedIn">
-      <div class="card-header">Upload Document</div>
-      <div class="card-body">
-        <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="consignmentNumber">Consignment Number</label>
-            <input
-              type="text"
-              id="consignmentNumber"
-              formControlName="consignmentNumber"
-              class="form-control"
-              placeholder="Enter consignment number"
-            />
-          </div>
-          <div class="form-group">
-            <label for="supplierName">Supplier Name</label>
-            <select
-              formControlName="supplierId"
-              class="form-control"
-              placeholder="Enter supplier name"
-            >
-              <option *ngFor="let option of suppliers" [value]="option.id">
-                {{ option.name }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="document">Upload Document</label>
-            <input type="file" id="document" (change)="onFileChange($event)" class="form-control" />
-          </div>
-          <button type="submit" class="btn btn-primary" [disabled]="uploadForm.invalid">
-            Submit
-          </button>
-        </form>
-      </div>
-    </div>
-    <div class="container">
-      <form class="form-inline" (ngSubmit)="onFilterSupplier()" [formGroup]="filterForm">
-        <div class="row">
-          <div class="col-md-6"></div>
-          <div class="col-md-5">
-            <input
-              class="form-control"
-              formControlName="filterString"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-          </div>
-          <div class="col-md-1">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </div>
+    <p *ngIf="!hasLoggedIn">
+      <a (click)="login()" class="btn btn-primary" role="button"
+        ><i class="fa fa-sign-in me-1" aria-hidden="true"></i
+        >{{ 'AbpAccount::Login' | abpLocalization }}</a
+      >
+    </p>
+    <!-- <hr /> -->
+    <!-- <p class="text-right"><a href="https://abp.io?ref=tmpl" target="_blank">abp.io</a></p> -->
+  </div>
+  @if (hasLoggedIn){
+  <div class="card margin" *ngIf="!isTenant">
+    <div class="card-header">Upload Document</div>
+    <div class="card-body">
+      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+        <div class="form-group margin">
+          <label for="consignmentNumber">Consignment Number</label>
+          <input
+            type="text"
+            id="consignmentNumber"
+            formControlName="consignmentNumber"
+            class="form-control"
+            placeholder="Enter consignment number"
+          />
         </div>
+        <div class="form-group margin">
+          <label for="supplierName">Supplier Name</label>
+          <select
+            formControlName="supplierId"
+            class="form-control"
+            placeholder="Enter supplier name"
+          >
+            <option *ngFor="let option of suppliers" [value]="option.id">
+              {{ option.name }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group margin">
+          <label for="document">Upload Document</label>
+          <input type="file" id="document" (change)="onFileChange($event)" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="uploadForm.invalid">
+          Submit
+        </button>
       </form>
     </div>
-    <div class="card" *ngIf="hasLoggedIn">
+  </div>
+  <div class="card">
+    <div class="card-header">Consignment Documents</div>
+    <div class="card-body">
+      <div class="container margin">
+        <form class="form-inline" (ngSubmit)="onFilterSupplier()" [formGroup]="filterForm">
+          <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-5">
+              <input
+                class="form-control"
+                formControlName="filterString"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
       <table class="table">
         <thead>
           <tr>
@@ -83,11 +86,42 @@
           <tr>
             <td>{{ document.consignmentNumber }}</td>
             <td>{{ document.capturedDate | date : 'yyyy/MM/dd HH:mm' }}</td>
-            <td>  <button aria-label="download" class="btn btn-primary" (click)="download(document.consignmentNumber)"><i class="fa fa-download"></i></button></td>
+            <td>
+              <button
+                aria-label="download"
+                class="btn btn-primary"
+                (click)="download(document.consignmentNumber)"
+              >
+                <i class="fa fa-download"></i>
+              </button>
+            </td>
           </tr>
           }
         </tbody>
       </table>
     </div>
   </div>
+
+  <div aria-live="polite" aria-atomic="true" class="position-relative">
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div
+        *ngFor="let toast of toasts"
+        [ngClass]="{ 'toast-error': toast.type === 'error' }"
+        class="toast fade show"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-header">
+          <strong class="me-auto">{{ toast.title }}</strong>
+          <button type="button" class="btn-close" (click)="removeToast(toast)"></button>
+        </div>
+        <div class="toast-body">
+          {{ toast.message }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  }
 </abp-page>

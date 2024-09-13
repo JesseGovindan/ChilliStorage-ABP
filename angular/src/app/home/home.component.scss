@@ -1,1 +1,35 @@
 /* Styles for the home component */
+
+.margin {
+  margin: 1rem 0rem 1rem 0rem;
+}
+
+.toast {
+  min-width: 200px;
+}
+
+.toast-header {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.toast-body {
+  background-color: #f8f9fa;
+}
+
+.toast-error .toast-header {
+  background-color: #dc3545; /* Red for error */
+}
+
+.toast-error .toast-body {
+  background-color: #f8d7da; /* Light red for error */
+}
+
+.btn-close {
+  background-color: #0056b3;
+  border: none;
+}
+
+.btn-close:hover {
+  background-color: #004494;
+}

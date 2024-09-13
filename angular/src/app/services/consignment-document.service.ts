@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UploadConsignmentDocument } from '../models/consignment-document.model';
 import { environment } from 'src/environments/environment';
-import { ConsignmentDocumentSummary } from '../models/consignemet-document-summary.model';
+import { ConsignmentDocumentSummary } from '../models/consignment-document-summary.model';
 import { DownloadResult } from '../models/download-result.model';
 
 @Injectable({
@@ -22,7 +22,7 @@ export class ConsignmentDocumentService {
   }
 
   downloadConsignmentDocument$(consignmentNumber: string) {
-    const url =`${environment.apis.default.url}/api/file/download/${consignmentNumber}`
+    const url = `${environment.apis.default.url}/api/file/download/${consignmentNumber}`;
     return this.http.get<DownloadResult>(url, {
       responseType: 'json',
     });

@@ -5,7 +5,7 @@ import { ConsignmentDocumentService } from '../services/consignment-document.ser
 import { UploadConsignmentDocument } from '../models/consignment-document.model';
 import { SupplierService } from '../services/supplier.service';
 import { Supplier } from '../models/supplier.model';
-import { ConsignmentDocumentSummary } from '../models/consignemet-document-summary.model';
+import { ConsignmentDocumentSummary } from '../models/consignment-document-summary.model';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +20,8 @@ export class HomeComponent implements OnInit {
   fileBuffer: Promise<string>;
   suppliers: Supplier[] = [];
   formReady: boolean = false;
+
+  toasts: { title: string; message: string }[] = [];
 
   get hasLoggedIn(): boolean {
     return this.authService.isAuthenticated;
@@ -41,7 +43,7 @@ export class HomeComponent implements OnInit {
     });
 
     this.filterForm = this.fb.group({
-      filterString: ['']
+      filterString: [''],
     });
   }
   ngOnInit(): void {
@@ -63,7 +65,7 @@ export class HomeComponent implements OnInit {
         this.filteredConsignmentDocuments = response;
         this.formReady = true;
       },
-      error: () => { },
+      error: () => {},
     });
   }
 
@@ -74,7 +76,7 @@ export class HomeComponent implements OnInit {
         document.consignmentNumber.includes(filterString)
       );
       return;
-    } 
+    }
     this.filteredConsignmentDocuments = this.consignmentDocuments;
   }
 
@@ -96,11 +98,11 @@ export class HomeComponent implements OnInit {
   }
 
   download(consignmentNumber: string): void {
-    this.consignmentDocumentService.downloadConsignmentDocument$(consignmentNumber)
-    .subscribe((response) => {
-      console.log(response.file.length);
-      this.decodeAndDownloadPdf(response.file, consignmentNumber+'.pdf')
-    });
+    this.consignmentDocumentService
+      .downloadConsignmentDocument$(consignmentNumber)
+      .subscribe(response => {
+        this.decodeAndDownloadPdf(response.file, consignmentNumber + '.pdf');
+      });
   }
 
   decodeAndDownloadPdf(base64String: string, fileName: string) {
@@ -108,11 +110,11 @@ export class HomeComponent implements OnInit {
     const binaryData = this.base64ToArrayBuffer(base64String);
     const blob = new Blob([binaryData], { type: 'application/pdf' });
     const url = window.URL.createObjectURL(blob);
-    
+
     link.href = url;
     link.download = fileName;
     link.click();
-    
+
     // Clean up URL
     window.URL.revokeObjectURL(url);
   }
@@ -149,14 +151,25 @@ export class HomeComponent implements OnInit {
       document: await this.fileBuffer,
       supplierId: this.uploadForm.value.supplierId,
     };
-    console.log(request);
+
     this.consignmentDocumentService.uploadConsignmentDocument$(request).subscribe({
       next: () => {
-        alert('document has been uploaded!');
+        alert('Document uploaded successfully!');
+
+        this.getConsignmentDocuments();
       },
       error: () => {
-        alert('failed to upload document!');
+        alert('Failed to upload document!');
       },
     });
+  }
+
+  showToast(title: string, message: string) {
+    this.toasts.push({ title, message });
+    setTimeout(() => this.removeToast(this.toasts[0]), 5000); // Remove toast after 5 seconds
+  }
+
+  removeToast(toast: { title: string; message: string }) {
+    this.toasts = this.toasts.filter(t => t !== toast);
   }
 }
