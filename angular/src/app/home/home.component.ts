@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
   }
 
   private getConsignmentDocuments() {
-    this.consignmentDocumentService.getAllConsignmentDocuments$().subscribe({
+    this.consignmentDocumentService.getConsignmentDocuments$().subscribe({
       next: response => {
         this.consignmentDocuments = response;
         this.filteredConsignmentDocuments = response;

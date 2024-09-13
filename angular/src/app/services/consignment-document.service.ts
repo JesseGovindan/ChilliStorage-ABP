@@ -16,12 +16,8 @@ export class ConsignmentDocumentService {
     return this.http.post<void>(url, request);
   }
 
-  getAllSupplierConsignmentDocuments$(supplierId: string) {
-    const url = `${environment.apis.default.url}/api/app/document-consignment?supplierId=${supplierId}`;
-    return this.http.get<ConsignmentDocumentSummary[]>(url);
-  }
-  getAllConsignmentDocuments$() {
-    const url = `${environment.apis.default.url}/api/app/document-consignment`;
+  getConsignmentDocuments$() {
+    const url = `${environment.apis.default.url}/api/app/document-consignment/supplier-consignment-documents`;
     return this.http.get<ConsignmentDocumentSummary[]>(url);
   }
 
