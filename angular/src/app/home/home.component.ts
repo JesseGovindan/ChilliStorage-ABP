@@ -96,23 +96,38 @@ export class HomeComponent implements OnInit {
   }
 
   download(consignmentNumber: string): void {
-   
-    alert(consignmentNumber)
     this.consignmentDocumentService.downloadConsignmentDocument$(consignmentNumber)
     .subscribe((response) => {
-      console.log(response);
-       // Create a Blob object representing the PDF file
-    const blob = new Blob([response], { type: 'application/pdf' });
-    console.log(blob);
-    // Create a URL for the Blob object
-    const url = URL.createObjectURL(blob);
-    console.log(url);
-    // Open the URL in a new tab
-    window.open(url, '_blank');
+      console.log(response.file.length);
+      this.decodeAndDownloadPdf(response.file, consignmentNumber+'.pdf')
     });
   }
 
+  decodeAndDownloadPdf(base64String: string, fileName: string) {
+    const link = document.createElement('a');
+    const binaryData = this.base64ToArrayBuffer(base64String);
+    const blob = new Blob([binaryData], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    
+    // Clean up URL
+    window.URL.revokeObjectURL(url);
+  }
 
+  base64ToArrayBuffer(base64: string) {
+    const binaryString = window.atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    return bytes.buffer;
+  }
 
   arrayBufferToBase64(buffer: ArrayBuffer): string {
     let binary = '';

@@ -14,7 +14,7 @@
       <!-- <hr /> -->
       <!-- <p class="text-right"><a href="https://abp.io?ref=tmpl" target="_blank">abp.io</a></p> -->
     </div>
-    <div class="card" *ngIf="!isTenant && !hasLoggedIn">
+    <div class="card" *ngIf="!isTenant && hasLoggedIn">
       <div class="card-header">Upload Document</div>
       <div class="card-body">
         <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">

@@ -5,6 +5,7 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace ChilliStorage.Controllers
 {
+    [Route("api/file")]
     public class FileController : AbpController
     {
         private readonly IDocumentConsignmentService _documentConsignmentService;
@@ -19,8 +20,16 @@ namespace ChilliStorage.Controllers
         public async Task<IActionResult> DownloadAsync(string consignmentNumber)
         {
             var fileDto = await _documentConsignmentService.GetDownloadConsignmentDocumentAsync(consignmentNumber);
+            var file = new DownloadResult
+            {
+                File = fileDto
+            };
+            return Ok(file);
+        }
 
-            return File(fileDto, "application/octet-stream", "file.pdf");
+        internal class DownloadResult
+        {
+            public string File { get; set; } = null!;
         }
     }
 }

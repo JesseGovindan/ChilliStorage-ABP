@@ -11,5 +11,5 @@ public interface IDocumentConsignmentService: IApplicationService
     Task CreateAsync(ConsignmentDocumentDto consignmentDocumentDto);
     Task<List<ConsignmentDocumentDto>> GetSupplierConsignmentDocumentsAsync(Guid supplierId);
     Task<List<ConsignmentDocumentDto>> GetAllAsync();
-    Task<byte[]> GetDownloadConsignmentDocumentAsync(string consignmentNumber);
+    Task<string> GetDownloadConsignmentDocumentAsync(string consignmentNumber);
 }

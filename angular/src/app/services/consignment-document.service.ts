@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UploadConsignmentDocument } from '../models/consignment-document.model';
 import { environment } from 'src/environments/environment';
 import { ConsignmentDocumentSummary } from '../models/consignemet-document-summary.model';
+import { DownloadResult } from '../models/download-result.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,9 @@ export class ConsignmentDocumentService {
   }
 
   downloadConsignmentDocument$(consignmentNumber: string) {
-    const url =`${environment.apis.default.url}/api/app/document-consignment/download-consignment-document?consignmentNumber=${consignmentNumber}`
-    return this.http.get(url, { responseType: 'arraybuffer' });
+    const url =`${environment.apis.default.url}/api/file/download/${consignmentNumber}`
+    return this.http.get<DownloadResult>(url, {
+      responseType: 'json',
+    });
   }
 }
